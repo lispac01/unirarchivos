@@ -2,6 +2,7 @@ require 'roo'
 require 'roo-xls' # Requerido para leer archivos .xls antiguos
 require 'write_xlsx'
 
+# Ruta local desde la que se toman los archivos a consolidar.
 carpeta = 'C:/cps' # Cambia esta ruta
 
 # Busca archivos Excel y evita posibles archivos consolidados para no duplicar datos
