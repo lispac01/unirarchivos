@@ -1,0 +1,65 @@
+@model IReadOnlyCollection<TrIngresoContenedor>
+
+@{
+    ViewData["Title"] = "Ingreso de contenedores";
+}
+
+<section class="page-hero mb-4">
+    <div>
+        <span class="page-kicker">Transacciones</span>
+        <h1 class="page-title">Ingreso de contenedores</h1>
+        <p class="page-subtitle mb-0">Registra la entrada del contenedor al proceso de mantenimiento con número consecutivo y fecha de ingreso.</p>
+    </div>
+    <div class="page-actions">
+        <a asp-controller="IngresosContenedor" asp-action="Create" class="btn btn-primary btn-lg">Nuevo ingreso</a>
+    </div>
+</section>
+
+@if (TempData["SuccessMessage"] is string successMessage)
+{
+    <div class="alert alert-success" role="alert">
+        @successMessage
+    </div>
+}
+
+@if (Model.Count == 0)
+{
+    <section class="empty-state">
+        <div class="empty-state__icon">IN</div>
+        <h2 class="h4 mb-2">Todavia no hay ingresos registrados</h2>
+        <p class="text-muted mb-4">Registra el primer ingreso de contenedor para comenzar la parte transaccional del mantenimiento.</p>
+        <a asp-controller="IngresosContenedor" asp-action="Create" class="btn btn-primary">Crear primer ingreso</a>
+    </section>
+}
+else
+{
+    <section class="data-card">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 app-table">
+                <thead>
+                    <tr>
+                        <th>Ingreso</th>
+                        <th>Codigo contenedor</th>
+                        <th>Nombre contenedor</th>
+                        <th>Fecha ingreso</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ingreso in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@ingreso.NumIngreso</td>
+                            <td>@ingreso.CodContenedor</td>
+                            <td>@(ingreso.Contenedor?.Nombre ?? "-")</td>
+                            <td>@ingreso.FecIngreso.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="text-end">
+                                <a asp-controller="IngresosContenedor" asp-action="Edit" asp-route-id="@ingreso.NumIngreso" class="btn btn-outline-primary btn-sm">Editar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}

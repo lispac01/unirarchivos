@@ -1,0 +1,77 @@
+@model CtMContenedor
+
+@{
+    ViewData["Title"] = "Nuevo contenedor";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+                <span class="page-kicker">Nuevo registro</span>
+                <h1 class="page-title mb-1">Nuevo contenedor</h1>
+                <p class="text-muted mb-0">Completa los datos del maestro <strong>ct_mcontenedor</strong>.</p>
+            </div>
+            <a asp-controller="Contenedores" asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+        </div>
+
+        <div class="data-card form-card">
+            <div class="card-body p-4 p-lg-5">
+                <form asp-action="Create" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label asp-for="CodContenedor" class="form-label fw-semibold"></label>
+                            <input asp-for="CodContenedor" class="form-control form-control-lg" placeholder="Ej. CONT-001" />
+                            <span asp-validation-for="CodContenedor" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="CodCliente" class="form-label fw-semibold"></label>
+                            <select asp-for="CodCliente" asp-items="ViewBag.Clientes" class="form-select form-select-lg">
+                                <option value="">Selecciona un cliente</option>
+                            </select>
+                            <span asp-validation-for="CodCliente" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Nombre" class="form-label fw-semibold"></label>
+                            <input asp-for="Nombre" class="form-control form-control-lg" placeholder="Nombre descriptivo del contenedor" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-check form-switch mt-4 mb-4">
+                        <input asp-for="Activo" class="form-check-input" />
+                        <label asp-for="Activo" class="form-check-label"></label>
+                    </div>
+
+                    @if (!(ViewBag.HasClientesActivos ?? false))
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            Debes crear al menos un cliente activo en <a asp-controller="ClientesMtto" asp-action="Create" class="alert-link">ct_clientemtto</a> antes de registrar contenedores.
+                        </div>
+                    }
+
+                    <div class="d-flex gap-2 flex-wrap">
+                        @if (ViewBag.HasClientesActivos ?? false)
+                        {
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary" disabled>Guardar</button>
+                        }
+
+                        <a asp-controller="Contenedores" asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

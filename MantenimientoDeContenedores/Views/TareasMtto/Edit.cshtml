@@ -1,0 +1,71 @@
+@model CtTareaDeMtto
+
+@{
+    ViewData["Title"] = "Editar tarea";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+                <span class="page-kicker">Edicion</span>
+                <h1 class="page-title mb-1">Editar tarea de mantenimiento</h1>
+                <p class="text-muted mb-0">Actualiza los datos del maestro <strong>ct_tareademtto</strong>.</p>
+            </div>
+            <a asp-controller="TareasMtto" asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+        </div>
+
+        <div class="data-card form-card">
+            <div class="card-body p-4 p-lg-5">
+                <form asp-action="Edit" asp-route-id="@Model.NroTarea" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row g-4">
+                        <div class="col-md-3">
+                            <label asp-for="NroTarea" class="form-label fw-semibold"></label>
+                            <input asp-for="NroTarea" class="form-control form-control-lg" readonly />
+                            <span asp-validation-for="NroTarea" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="NombreTarea" class="form-label fw-semibold"></label>
+                            <input asp-for="NombreTarea" class="form-control form-control-lg" placeholder="Nombre descriptivo de la tarea" />
+                            <span asp-validation-for="NombreTarea" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="Activo" class="form-label fw-semibold d-block">&nbsp;</label>
+                            <div class="form-check form-switch mt-2">
+                                <input asp-for="Activo" class="form-check-input" />
+                                <label asp-for="Activo" class="form-check-label"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="CodEspMtto" class="form-label fw-semibold"></label>
+                            <select asp-for="CodEspMtto" asp-items="ViewBag.Especialidades" class="form-select form-select-lg">
+                                <option value="">Selecciona una especialidad</option>
+                            </select>
+                            <span asp-validation-for="CodEspMtto" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="TiempoEstimado" class="form-label fw-semibold"></label>
+                            <input asp-for="TiempoEstimado" type="number" step="0.01" min="0" class="form-control form-control-lg" placeholder="0.50" />
+                            <span asp-validation-for="TiempoEstimado" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap mt-4">
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        <a asp-controller="TareasMtto" asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

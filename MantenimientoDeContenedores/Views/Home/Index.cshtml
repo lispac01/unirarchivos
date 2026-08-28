@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<section class="home-workspace">
+    <div class="home-explorer">
+        <aside class="home-explorer__sidebar">
+            <div class="home-explorer__titlebar">
+                <span class="home-explorer__title">MANTENIMIENTO-CONTENEDORES</span>
+            </div>
+
+            <nav class="tree-menu" aria-label="Menu principal de mantenimiento">
+                <div class="tree-menu__group">
+                    <div class="tree-menu__row tree-menu__row--group">
+                        <span class="tree-menu__arrow tree-menu__arrow--open" aria-hidden="true"></span>
+                        <span class="tree-menu__folder" aria-hidden="true"></span>
+                        <span>Maestros</span>
+                    </div>
+
+                    <div class="tree-menu__children">
+                        <a asp-controller="ClientesMtto" asp-action="Index" class="tree-menu__row tree-menu__row--link">
+                            <span class="tree-menu__arrow" aria-hidden="true"></span>
+                            <span class="tree-menu__folder" aria-hidden="true"></span>
+                            <span>Clientes</span>
+                        </a>
+
+                        <a asp-controller="EspecialidadesMtto" asp-action="Index" class="tree-menu__row tree-menu__row--link">
+                            <span class="tree-menu__arrow" aria-hidden="true"></span>
+                            <span class="tree-menu__folder" aria-hidden="true"></span>
+                            <span>Especialidades</span>
+                        </a>
+
+                        <a asp-controller="EspecialidadesEmpleado" asp-action="Index" class="tree-menu__row tree-menu__row--link">
+                            <span class="tree-menu__arrow" aria-hidden="true"></span>
+                            <span class="tree-menu__folder" aria-hidden="true"></span>
+                            <span>Especialidades técnico</span>
+                        </a>
+
+                        <a asp-controller="TareasMtto" asp-action="Index" class="tree-menu__row tree-menu__row--link">
+                            <span class="tree-menu__arrow" aria-hidden="true"></span>
+                            <span class="tree-menu__folder" aria-hidden="true"></span>
+                            <span>Tareas mtto</span>
+                        </a>
+
+                        <a asp-controller="Contenedores" asp-action="Index" class="tree-menu__row tree-menu__row--link">
+                            <span class="tree-menu__arrow" aria-hidden="true"></span>
+                            <span class="tree-menu__folder" aria-hidden="true"></span>
+                            <span>Contenedores</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tree-menu__group">
+                    <div class="tree-menu__row tree-menu__row--group">
+                        <span class="tree-menu__arrow tree-menu__arrow--open" aria-hidden="true"></span>
+                        <span class="tree-menu__folder" aria-hidden="true"></span>
+                        <span>Transacciones</span>
+                    </div>
+
+                    <div class="tree-menu__children">
+                        <a asp-controller="IngresosContenedor" asp-action="Index" class="tree-menu__row tree-menu__row--link">
+                            <span class="tree-menu__arrow" aria-hidden="true"></span>
+                            <span class="tree-menu__folder" aria-hidden="true"></span>
+                            <span>Ingreso contenedor</span>
+                        </a>
+
+                        <a asp-controller="PreviajesContenedor" asp-action="Index" class="tree-menu__row tree-menu__row--link">
+                            <span class="tree-menu__arrow" aria-hidden="true"></span>
+                            <span class="tree-menu__folder" aria-hidden="true"></span>
+                            <span>Previaje</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <section class="home-explorer__content">
+            <div class="home-panel">
+                <span class="home-panel__kicker">Transacciones</span>
+                <h1 class="home-panel__title">Ingreso de contenedores</h1>
+                <p class="home-panel__text">Registra la entrada del contenedor al proceso de mantenimiento con un número consecutivo automático y la fecha/hora real de ingreso.</p>
+
+                <div class="home-panel__actions">
+                    <a asp-controller="IngresosContenedor" asp-action="Create" class="btn btn-primary">Nuevo ingreso</a>
+                    <a asp-controller="IngresosContenedor" asp-action="Index" class="btn btn-outline-secondary">Ver ingresos</a>
+                    <a asp-controller="PreviajesContenedor" asp-action="Create" class="btn btn-outline-primary">Nuevo previaje</a>
+                    <a asp-controller="TareasMtto" asp-action="Create" class="btn btn-outline-primary">Nueva tarea</a>
+                    <a asp-controller="Contenedores" asp-action="Index" class="btn btn-outline-primary">Ver contenedores</a>
+                </div>
+            </div>
+
+            <div class="home-panel home-panel--secondary">
+                <span class="home-panel__kicker">ct_tareademtto</span>
+                <h2 class="home-panel__subtitle">Tareas de mantenimiento</h2>
+                <p class="home-panel__text mb-0">Registra las tareas del taller con su especialidad, tiempo estimado y estado activo para usarlas luego en los procesos transaccionales.</p>
+            </div>
+        </section>
+    </div>
+</section>

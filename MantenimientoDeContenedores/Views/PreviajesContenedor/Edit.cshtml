@@ -1,0 +1,200 @@
+@model PreviajeContenedorFormViewModel
+
+@{
+    ViewData["Title"] = "Editar previaje";
+    var canSubmit = Model.IngresosDisponibles.Count > 0 && Model.EspecialidadesDisponibles.Count > 0 && Model.TecnicosDisponibles.Count > 0;
+}
+
+<div class="row justify-content-center">
+    <div class="col-xl-10">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+                <span class="page-kicker">Edicion</span>
+                <h1 class="page-title mb-1">Editar previaje</h1>
+                <p class="text-muted mb-0">Corrige la inspección del contenedor por especialidad.</p>
+            </div>
+            <a asp-controller="PreviajesContenedor" asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+        </div>
+
+        <div class="data-card form-card">
+            <div class="card-body p-4 p-lg-5">
+                <form asp-action="Edit" asp-route-id="@Model.NroPreviaje" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <label asp-for="NroPreviaje" class="form-label fw-semibold"></label>
+                            <input asp-for="NroPreviaje" class="form-control form-control-lg" readonly />
+                            <span asp-validation-for="NroPreviaje" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="NumIngreso" class="form-label fw-semibold"></label>
+                            <select asp-for="NumIngreso" class="form-select form-select-lg js-ingreso-select">
+                                <option value="">Selecciona un ingreso</option>
+                                @foreach (var ingreso in Model.IngresosDisponibles)
+                                {
+                                    if (Model.NumIngreso == ingreso.NumIngreso)
+                                    {
+                                        <option value="@ingreso.NumIngreso" selected data-contenedor="@ingreso.CodContenedor - @ingreso.NombreContenedor" data-cliente="@ingreso.CodCliente - @ingreso.NombreCliente" data-especialidades-registradas="@ingreso.CodigosEspecialidadesRegistradas">@(ingreso.NumIngreso + " - " + ingreso.CodContenedor)</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@ingreso.NumIngreso" data-contenedor="@ingreso.CodContenedor - @ingreso.NombreContenedor" data-cliente="@ingreso.CodCliente - @ingreso.NombreCliente" data-especialidades-registradas="@ingreso.CodigosEspecialidadesRegistradas">@(ingreso.NumIngreso + " - " + ingreso.CodContenedor)</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="NumIngreso" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Contenedor</label>
+                            <input type="text" class="form-control form-control-lg js-contenedor-display" readonly />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Cliente</label>
+                            <input type="text" class="form-control form-control-lg js-cliente-display" readonly />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label asp-for="CodEspMtto" class="form-label fw-semibold"></label>
+                            <select asp-for="CodEspMtto" class="form-select form-select-lg js-especialidad-select">
+                                <option value="">Selecciona una especialidad</option>
+                                @foreach (var especialidad in Model.EspecialidadesDisponibles)
+                                {
+                                    if (Model.CodEspMtto == especialidad.CodEspMtto)
+                                    {
+                                        <option value="@especialidad.CodEspMtto" selected>@especialidad.NomEspMtto</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@especialidad.CodEspMtto">@especialidad.NomEspMtto</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="CodEspMtto" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label asp-for="CodTit" class="form-label fw-semibold"></label>
+                            <select asp-for="CodTit" class="form-select form-select-lg js-tecnico-select">
+                                <option value="">Selecciona un técnico</option>
+                                @foreach (var tecnico in Model.TecnicosDisponibles)
+                                {
+                                    if (Model.CodTit == tecnico.CodTit)
+                                    {
+                                        <option value="@tecnico.CodTit" selected data-especialidad="@tecnico.CodEspMtto">@tecnico.NomTit (@tecnico.Usuario)</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@tecnico.CodTit" data-especialidad="@tecnico.CodEspMtto">@tecnico.NomTit (@tecnico.Usuario)</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="CodTit" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label asp-for="FecPreviaje" class="form-label fw-semibold"></label>
+                            <input asp-for="FecPreviaje" type="datetime-local" class="form-control form-control-lg" value="@Model.FecPreviaje.ToString("yyyy-MM-ddTHH:mm")" />
+                            <span asp-validation-for="FecPreviaje" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Observaciones" class="form-label fw-semibold"></label>
+                            <textarea asp-for="Observaciones" rows="4" class="form-control" placeholder="Observaciones del previaje"></textarea>
+                            <span asp-validation-for="Observaciones" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-check form-switch mb-4">
+                        <input asp-for="Habilitado" class="form-check-input" />
+                        <label asp-for="Habilitado" class="form-check-label"></label>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap">
+                        @if (canSubmit)
+                        {
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary" disabled>Guardar cambios</button>
+                        }
+
+                        <a asp-controller="PreviajesContenedor" asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (() => {
+            const ingresoSelect = document.querySelector('.js-ingreso-select');
+            const contenedorDisplay = document.querySelector('.js-contenedor-display');
+            const clienteDisplay = document.querySelector('.js-cliente-display');
+            const especialidadSelect = document.querySelector('.js-especialidad-select');
+            const tecnicoSelect = document.querySelector('.js-tecnico-select');
+            const especialidadOptions = Array.from(especialidadSelect?.options ?? []);
+
+            const refreshIngresoInfo = () => {
+                const selected = ingresoSelect?.selectedOptions?.[0];
+                contenedorDisplay.value = selected?.dataset?.contenedor ?? '';
+                clienteDisplay.value = selected?.dataset?.cliente ?? '';
+            };
+
+            const refreshEspecialidades = () => {
+                const selected = ingresoSelect?.selectedOptions?.[0];
+                const registradas = new Set((selected?.dataset?.especialidadesRegistradas ?? '').split(',').filter(Boolean));
+
+                especialidadOptions.forEach((option, index) => {
+                    if (index === 0) {
+                        option.hidden = false;
+                        return;
+                    }
+
+                    const keepVisible = !registradas.has(option.value) || option.value === especialidadSelect.value;
+                    option.hidden = !keepVisible;
+
+                    if (!keepVisible && option.selected) {
+                        especialidadSelect.value = '';
+                    }
+                });
+            };
+
+            const refreshTecnicos = () => {
+                const especialidad = especialidadSelect?.value ?? '';
+
+                Array.from(tecnicoSelect.options).forEach((option, index) => {
+                    if (index === 0) {
+                        option.hidden = false;
+                        return;
+                    }
+
+                    const matches = !especialidad || option.dataset.especialidad === especialidad;
+                    option.hidden = !matches;
+
+                    if (!matches && option.selected) {
+                        tecnicoSelect.value = '';
+                    }
+                });
+            };
+
+            ingresoSelect?.addEventListener('change', () => {
+                refreshIngresoInfo();
+                refreshEspecialidades();
+                refreshTecnicos();
+            });
+            especialidadSelect?.addEventListener('change', refreshTecnicos);
+
+            refreshIngresoInfo();
+            refreshEspecialidades();
+            refreshTecnicos();
+        })();
+    </script>
+}

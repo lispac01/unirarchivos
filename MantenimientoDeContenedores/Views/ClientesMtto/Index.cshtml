@@ -1,0 +1,99 @@
+@model IReadOnlyCollection<CtClienteMtto>
+
+@{
+    ViewData["Title"] = "Maestro de clientes";
+}
+
+<section class="page-hero mb-4">
+    <div>
+        <span class="page-kicker">Catalogo maestro</span>
+        <h1 class="page-title">Maestro de clientes</h1>
+        <p class="page-subtitle mb-0">Administra <strong>ct_clientemtto</strong> con el centro de costo y los importes de mano de obra por cliente.</p>
+    </div>
+    <div class="page-actions">
+        <a asp-controller="ClientesMtto" asp-action="Create" class="btn btn-primary btn-lg">Nuevo cliente</a>
+    </div>
+</section>
+
+<section class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="summary-card">
+            <span class="summary-label">Total registrados</span>
+            <strong class="summary-value">@Model.Count</strong>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="summary-card">
+            <span class="summary-label">Activos</span>
+            <strong class="summary-value">@Model.Count(x => x.Activo)</strong>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="summary-card">
+            <span class="summary-label">Inactivos</span>
+            <strong class="summary-value">@Model.Count(x => !x.Activo)</strong>
+        </div>
+    </div>
+</section>
+
+@if (TempData["SuccessMessage"] is string successMessage)
+{
+    <div class="alert alert-success" role="alert">
+        @successMessage
+    </div>
+}
+
+@if (Model.Count == 0)
+{
+    <section class="empty-state">
+        <div class="empty-state__icon">CL</div>
+        <h2 class="h4 mb-2">Todavia no hay clientes registrados</h2>
+        <p class="text-muted mb-4">Crea el primer cliente para poder asociarlo luego al alta de contenedores.</p>
+        <a asp-controller="ClientesMtto" asp-action="Create" class="btn btn-primary">Crear primer cliente</a>
+    </section>
+}
+else
+{
+    <section class="data-card">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 app-table">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Cliente</th>
+                        <th>Centro de costo</th>
+                        <th>MO sin garantia</th>
+                        <th>MO con garantia</th>
+                        <th>Estado</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cliente in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@cliente.CodCliente</td>
+                            <td>@cliente.NombreCliente</td>
+                            <td>@cliente.CodDpto</td>
+                            <td>@cliente.ImpMovMo.ToString("N2")</td>
+                            <td>@cliente.ImpMovMo2.ToString("N2")</td>
+                            <td>
+                                @if (cliente.Activo)
+                                {
+                                    <span class="badge rounded-pill text-bg-success">Activo</span>
+                                }
+                                else
+                                {
+                                    <span class="badge rounded-pill text-bg-secondary">Inactivo</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <a asp-controller="ClientesMtto" asp-action="Edit" asp-route-id="@cliente.CodCliente" class="btn btn-outline-primary btn-sm">Editar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}

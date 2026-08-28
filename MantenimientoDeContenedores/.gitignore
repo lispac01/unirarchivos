@@ -1,0 +1,24 @@
+## Visual Studio & .NET Build Output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+## Node.js & Temporary directories
+node_modules/
+**/node_modules/
+
+## IDE Files (.vs, .vscode)
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## OS Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
